@@ -4,14 +4,105 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <meta name="keywords" content="91PITU,在线证件照制作精修软件,在线PS制作证件照,用3秒钟解决30分钟的PS工作" />
+    <meta name="renderer" content="webkit">
     <link rel="icon" href="<%= BASE_URL %>favicon.ico">
-    <title>pitu91</title>
+    <title>91PITU-在线证件照制作精修软件-在线PS制作证件照-用3秒钟解决30分钟的PS工作</title>
+    <style>
+      #info {
+        width: 850px;
+        margin: 30px auto;
+        box-shadow: 0 0 15px rgba(0, 0, 0, 0.6);
+        padding-bottom: 48px;
+      }
+      .jrh {
+        width: 100%;
+        height: 153px;
+        object-fit: cover;
+      }
+      .jrtitle {
+        text-align: center;
+        font-size: 33px;
+        color: #363636;
+        font-weight: bold;
+        margin-top: -102px;
+        letter-spacing: 2px;
+      }
+      .jrinfo {
+        font-size: 26px;
+        color: #696969;
+        margin: 103px 0 53px 77px;
+      }
+      .jrlist {
+        margin: 0 0 59px 69px;
+      }
+      .jrlist>li:first-child {
+        margin-bottom: 25px;
+      }
+      .jrbtn {
+        width: 250px;
+        height: 60px;
+        object-fit: cover;
+        display: block;
+        margin: 0 auto;
+        border: none;
+      }
+    </style>
   </head>
   <body>
     <noscript>
       <strong>We're sorry but pitu91 doesn't work properly without JavaScript enabled. Please enable it to continue.</strong>
     </noscript>
     <div id="app"></div>
+    <div id="info" style="display: none;">
+        <img src="jr_h.png" class="jrh" />
+        <p class="jrtitle">您当前的浏览器兼容性较差</p>
+        <p class="jrinfo">为保证您正常的使用体验：</p>
+        <ul class="jrlist">
+          <li>若您的电脑为windows XP系统，请下载360浏览器，并切换至“极速模式”</li>
+          <li>若您的电脑为windows 7以上系统，建议您使用最新版本的谷歌浏览器。</li>
+        </ul>
+        <a href="https://leqi-91pitu-backups.oss-cn-shanghai.aliyuncs.com/91pitu_web_360/360%E6%B5%8F%E8%A7%88%E5%99%A8-%E9%80%82%E9%85%8DWinALL.exe" class="jrA">
+            <img src="jr_btn.png" class="jrbtn" />
+        </a>
+      </div>
+    
     <!-- built files will be auto injected -->
   </body>
+  <script>
+      
+      //判断是否是IE浏览器，包括Edge浏览器
+      function IEVersion() {
+            //取得浏览器的userAgent字符串
+            var userAgent = navigator.userAgent;
+            //判断是否IE浏览器
+            var isIE = userAgent.indexOf("compatible") > -1 && userAgent.indexOf("MSIE") > -1;
+            if (isIE) {
+                var reIE = new RegExp("MSIE (\\d+\\.\\d+);");
+                reIE.test(userAgent);
+                var fIEVersion = parseFloat(RegExp["$1"]);
+                if (fIEVersion <= 10) {
+                    return true;
+                }
+            } else {
+                return false;
+            }
+        }
+        if (IEVersion()) {
+          var app = document.getElementById("app");
+          var info = document.getElementById("info");
+          app.innerHTML = "";
+          app.style.display = "none";
+          info.style.display = "block";
+        }
+  </script>
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?a59660d54f47581337647a4f40a7f616";
+      var s = document.getElementsByTagName("script")[0]; 
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
 </html>
