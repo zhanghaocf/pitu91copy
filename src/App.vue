@@ -416,10 +416,10 @@ export default {
             ths.errmess = erd.msg;
             ths.centerDialogVisible = true;
           // break;
-          // case 550:
-          //   ths.errmess = "超出服务提示";
-          //   ths.centerDialogVisible = true;
-          // break;
+          case 550:
+            ths.errmess = erd.msg;
+            ths.centerDialogVisible = true;
+          break;
           // case 610:
           //   ths.errmess = "微信登录提示";
           //   ths.centerDialogVisible = true;

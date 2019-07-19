@@ -232,6 +232,7 @@ import { setTimeout } from 'timers';
 let keyName = "";
 let resultpicname = "";
 let meiyanCache = {};
+let singleClick = true;
 export default {
   name: "home",
   data() {
@@ -250,18 +251,18 @@ export default {
         lightspot_num: 0,
         remove_unbalancelight_num: 0
       },
-      lefteye_large: 0,
-      righteye_large: 0,
       downLoadType: 1,
-      eyelift: 0,
-      eyebrow: 0,
-      lipcolor: 0,
-      skinwhite: 0,
-      skinsoft: 0,
-      contour: 0,
       orientation: 0,
-      lightspot: 0,
-      remove_unbalancelight: 0,
+      lefteye_large: 2,
+      righteye_large: 2,
+      eyelift: 2,
+      eyebrow: 3,
+      lipcolor: 3,
+      skinwhite: 2,
+      skinsoft: 2,
+      contour: 2,
+      lightspot: 1,
+      remove_unbalancelight: 1,
       isLoading: false,
       importImgLoading: false,
       cutLoading: false,
@@ -523,8 +524,13 @@ export default {
         }
       }
       this.dpwnloadPicVis = true;
+      singleClick = true;
     },
     getPic() {
+      if(!singleClick){
+        return;
+      }
+      singleClick = false;
       this.dpwnloadPicVis = false;
       let picname = !resultpicname ? this.pic_wm_name_list[this.defaultColor] : resultpicname;
       console.log(`picname:${picname}`);
@@ -536,8 +542,10 @@ export default {
         console.log(res);
         let key = keyName + this.selObj.spec_id;
         sessionStorage.setItem(key, JSON.stringify(res.data.pic_urls));
-        this.setresttotal(this.rest_total - 1);
-        this.setusedtotal(this.used_total + 1);
+        if(this.needcost){
+          this.setresttotal(this.rest_total - 1);
+          this.setusedtotal(this.used_total + 1);
+        }
         this.handleDownloadFn(res.data.pic_urls);
         this.totalLoading = false;
       }).catch(() => {
@@ -555,25 +563,26 @@ export default {
       }
     },
     downloadPic(obj) {
-      var zip = new JsZip();
-      var folder = zip.folder(new Date().getTime());
-      let color = this.selcolor[this.defaultColor].color_name;
-      let rule = this.selObj.name;
-      let img1 = hfile.imageToBlob(obj.id_pic_url, folder, `${rule}-${color}.jpg`);
-      let img2 = hfile.imageToBlob(obj.print_typed_pic_url, folder, `${rule}-${color}-排版.jpg`);
-      let img3 = hfile.imageToBlob(obj.beautiful_url, folder, `${rule}-${color}-原始尺寸.jpg`);
-      let img4 = hfile.imageToBlob(obj.bg_pic_url, folder, `原图抠图.png`);
-      Promise.all([img1, img2, img3, img4])
-        .then(() => {
-          return zip.generateAsync({ type: "blob" });
-        })
-        .then(function(content) {
-          // see FileSaver.js
-          zhfs.saveAs(content, "91pitu.zip");
-        })
-        .catch(() => {
-          console.log(12334555);
-        });
+      location.href=obj.zip_file_url;
+      // var zip = new JsZip();
+      // var folder = zip.folder(new Date().getTime());
+      // let color = this.selcolor[this.defaultColor].color_name;
+      // let rule = this.selObj.name;
+      // let img1 = hfile.imageToBlob(obj.id_pic_url, folder, `${rule}-${color}.jpg`);
+      // let img2 = hfile.imageToBlob(obj.print_typed_pic_url, folder, `${rule}-${color}-排版.jpg`);
+      // let img3 = hfile.imageToBlob(obj.beautiful_url, folder, `${rule}-${color}-原始尺寸.jpg`);
+      // let img4 = hfile.imageToBlob(obj.bg_pic_url, folder, `原图抠图.png`);
+      // Promise.all([img1, img2, img3, img4])
+      //   .then(() => {
+      //     return zip.generateAsync({ type: "blob" });
+      //   })
+      //   .then(function(content) {
+      //     // see FileSaver.js
+      //     zhfs.saveAs(content, "91pitu.zip");
+      //   })
+      //   .catch(() => {
+      //     console.log(12334555);
+      //   });
     },
     defaultColorFn(idx) {
       this.defaultColor = idx;
@@ -658,6 +667,7 @@ export default {
       }).catch(() => {
         this.totalLoading = false;
         ths.needMeiyanBol = false;
+        meiyanCache = {}; //制作失败也清楚缓存
       })
     },
     uploadingImgFn(f) {
